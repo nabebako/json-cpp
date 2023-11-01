@@ -1,0 +1,91 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build App",
+			"dependsOn": [
+				"Compile",
+				"Move",
+				"Link",
+			],
+			"group": "build",
+			"dependsOrder": "sequence"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Compile",
+			"group": "build",
+			"command": "g++-11",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-c",
+				"${workspaceFolder}/src/**/*.cpp",
+				"-c",
+				"${workspaceFolder}/src/entry.cpp",
+				"-I",
+				"${workspaceFolder}/src",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+		},
+		{
+			"type": "shell",
+			"label": "Move",
+			"group": "build",
+			"command": ["mv entry.o .cpp/ && mv *.o .cpp/bin/"],
+		},
+		{
+			"type": "cppbuild",
+			"label": "Link",
+			"group": "build",
+			"command": "g++-11",
+			"args": [
+				"${workspaceFolder}/.cpp/entry.o",
+				"${workspaceFolder}/.cpp/bin/*.o",
+				"-o",
+				"${workspaceFolder}/.cpp/app",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+		},
+		{
+			"label": "Build Test",
+			"type": "shell",
+			"group": "test",
+			"command": "g++-11",
+			"args": [
+				"${workspaceFolder}/test/entry.cpp",
+				"${workspaceFolder}/.cpp/bin/*.o",
+				"-o",
+				"${workspaceFolder}/test/entry",
+				"-I",
+				"${workspaceFolder}/src",
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+		},
+		{
+			"label": "Test",
+			"type": "shell",
+			"group": "test",
+			"command": "${workspaceFolder}/test/entry",
+			"dependsOn": [
+				"Build Test",
+			],
+			"dependsOrder": "sequence",
+		},
+	]
+}

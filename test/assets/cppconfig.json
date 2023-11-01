@@ -1,0 +1,7 @@
+{
+	"target": "ESNext",
+	"esModuleInterop": true,
+	"forceConsistentCasingInFileNames": true,
+	"strict": true,
+	"skipLibCheck": true
+}
